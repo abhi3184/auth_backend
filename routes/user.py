@@ -23,9 +23,11 @@ async def check_user_exist_by_email(email:str):
     
 @user.put("/updateUser/{user_id}")
 async def update_user(user_id: int, payload: UpdateUserRequest):
-    return userService.update_user(user_id, payload)
+    result = userService.update_user(user_id, payload)
+    return result
 
 
 @user.delete("/deleteUser/{user_id}")
 async def delete_user(user_id: int):
-    return userService.delete_user(user_id)
+    result = userService.delete_user(user_id)
+    return result
