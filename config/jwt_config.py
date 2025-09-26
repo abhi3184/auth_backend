@@ -1,6 +1,5 @@
-# config/jwt_config.py
 from datetime import timedelta
 
-SECRET_KEY = "your_secret_key_here"   # keep this safe, maybe in .env
+SECRET_KEY = "YOUR_SECRET_KEY_HERE"  # replace with a secure random string
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30  # token validity
+ACCESS_TOKEN_EXPIRE_MINUTES = 60  # token valid for 1 hour

@@ -1,7 +1,6 @@
 import time
 import requests
 from utils.GenerateOTP import send_email, generate_otp
-from config.db import conn
 from models.index import UserTable
 
 

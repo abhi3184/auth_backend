@@ -1,39 +1,32 @@
-from config.db import conn
+
 from models.index import UserTable
 from schemas.index import User
 
 class userRepos:
 
     @staticmethod
-    def get_all_users():
-        result = conn.execute(UserTable.select()).mappings().all()
+    def get_all_users(db):
+        result = db.execute(UserTable.select()).mappings().all()
         return result
     
     @staticmethod
-    def get_user_by_Id(id):
-        result = conn.execute(UserTable.select().where(UserTable.c.id == id)).mappings().first()
-        return result
+    def get_user_by_id(db, user_id):
+        return db.execute(UserTable.select().where(UserTable.c.id == user_id)).mappings().first()
     
     @staticmethod
-    def update_user(user_id,user):
-        print('UserData',user)
-        result = conn.execute(
-            UserTable.update()
-            .where(UserTable.c.id == user_id)
-            .values(
-                username=user.username,
-                email=user.email,
-                mobile=user.mobile
-            )
-        )
-        conn.commit()
-        if result.rowcount == 0: 
-            return {"success": False, "message": "User not found"}
+    def get_user_by_email(db, email):
+        return db.execute(UserTable.select().where(UserTable.c.email == email)).mappings().first()
+    
+    @staticmethod
+    def update_user(db, user_id, payload):
+        query = UserTable.update().where(UserTable.c.id == user_id).values(**payload.dict())
+        db.execute(query)
+        db.commit()
+        return {"success": True}
 
-        return {"success": True, "message": "User updated successfully"}
-    
     @staticmethod
-    def delete_user(user_id):
-        result = conn.execute(UserTable.delete().where(UserTable.c.id == user_id))
-        conn.commit()
-        return result
+    def delete_user(db, user_id):
+        query = UserTable.delete().where(UserTable.c.id == user_id)
+        db.execute(query)
+        db.commit()
+        return {"success": True}
